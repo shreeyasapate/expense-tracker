@@ -1,0 +1,51 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f7f8fc;
+}
+
+.navbar{
+    background:#111827 !important;
+}
+
+.hero{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+}
+
+.btn{
+    border-radius:12px;
+    padding:12px 30px;
+}
+
+img{
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-15px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+
+h1{
+    color:#1f2937;
+}
+
+.btn-primary{
+    padding:12px 28px;
+    border-radius:10px;
+}
