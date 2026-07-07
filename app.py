@@ -110,6 +110,74 @@ def expenses():
     )
 
 
+
+# -------------------- EDIT EXPENSE --------------------
+
+@app.route("/edit-expense/<int:id>")
+def edit_expense(id):
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM expenses
+        WHERE id = ?
+    """, (id,))
+
+    expense = cursor.fetchone()
+
+    conn.close()
+
+    return render_template(
+        "edit_expense.html",
+        expense=expense
+    )
+    
+    # -------------------- UPDATE EXPENSE --------------------
+
+@app.route("/update-expense/<int:id>", methods=["POST"])
+def update_expense(id):
+
+    amount = request.form["amount"]
+    category = request.form["category"]
+    date = request.form["date"]
+    description = request.form["description"]
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE expenses
+        SET amount = ?,
+            category = ?,
+            date = ?,
+            description = ?
+        WHERE id = ?
+    """, (amount, category, date, description, id))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/expenses")
+
+# -------------------- DELETE EXPENSE --------------------
+
+@app.route("/delete-expense/<int:id>")
+def delete_expense(id):
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        DELETE FROM expenses
+        WHERE id = ?
+    """, (id,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/expenses")
 # -------------------- AUTO OPEN BROWSER --------------------
 
 def open_browser():
