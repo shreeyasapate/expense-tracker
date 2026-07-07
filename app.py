@@ -8,7 +8,27 @@ DATABASE = "database/expenses.db"
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT SUM(amount) FROM expenses")
+    total_expense = cursor.fetchone()[0]
+
+    if total_expense is None:
+        total_expense = 0
+
+    # Count total transactions
+    cursor.execute("SELECT COUNT(*) FROM expenses")
+    total_transactions = cursor.fetchone()[0]
+
+    conn.close()
+
+    return render_template(
+        "index.html",
+        total_expense=total_expense,
+        total_transactions=total_transactions
+    )
 
 
 @app.route("/add-expense")
@@ -57,4 +77,5 @@ def open_browser():
     
 if __name__ == "__main__":
     Timer(1, open_browser).start()
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
+    

@@ -25,7 +25,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/expenses">Expenses</a></li>
                 <li class="nav-item"><a class="nav-link" href="/add-expense">Add Expense</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
             </ul>
@@ -77,7 +77,7 @@
             <div class="card shadow border-0 p-4 text-center">
                 <h2>💰</h2>
                 <h5>Total Balance</h5>
-                <h3>$12,500</h3>
+                <h3>₹ {{ total_expense }}</h3>
             </div>
         </div>
 
@@ -97,13 +97,13 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow border-0 p-4 text-center">
-                <h2>🏦</h2>
-                <h5>Savings</h5>
-                <h3>$5,000</h3>
-            </div>
-        </div>
+      <div class="col-md-3">
+    <div class="card shadow border-0 p-4 text-center">
+        <h2>🧾</h2>
+        <h5>Total Transactions</h5>
+        <h3>{{ total_transactions }}</h3>
+    </div>
+</div>
 
     </div>
 
