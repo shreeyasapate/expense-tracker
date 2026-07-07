@@ -23,9 +23,11 @@ def home():
     if total_expense is None:
         total_expense = 0
 
+
     # Total Transactions
     cursor.execute("SELECT COUNT(*) FROM expenses")
     total_transactions = cursor.fetchone()[0]
+
 
     # Recent Expenses
     cursor.execute("""
@@ -34,24 +36,49 @@ def home():
         ORDER BY id DESC
         LIMIT 5
     """)
-
     recent_expenses = cursor.fetchall()
-    print("Recent Expenses:", recent_expenses)
+
+
+    # Expense By Category
+    cursor.execute("""
+        SELECT category, SUM(amount)
+        FROM expenses
+        GROUP BY category
+    """)
+    category_data = cursor.fetchall()
+
+
+    # Monthly Expense Data
+    cursor.execute("""
+        SELECT strftime('%Y-%m', date), SUM(amount)
+        FROM expenses
+        GROUP BY strftime('%Y-%m', date)
+        ORDER BY date
+    """)
+    monthly_data = cursor.fetchall()
+
+
     conn.close()
+
 
     return render_template(
         "index.html",
         total_expense=total_expense,
         total_transactions=total_transactions,
-        recent_expenses=recent_expenses
+        recent_expenses=recent_expenses,
+        category_data=category_data,
+        monthly_data=monthly_data
     )
+
 
 
 # -------------------- ADD EXPENSE PAGE --------------------
 
 @app.route("/add-expense")
 def add_expense():
+
     return render_template("add_expense.html")
+
 
 
 # -------------------- SAVE EXPENSE --------------------
@@ -64,27 +91,26 @@ def save_expense():
     date = request.form["date"]
     description = request.form["description"]
 
-    print("========== FORM DATA ==========")
-    print("Amount:", amount)
-    print("Category:", category)
-    print("Date:", date)
-    print("Description:", description)
 
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
+
     cursor.execute("""
-        INSERT INTO expenses (amount, category, date, description)
+        INSERT INTO expenses
+        (amount, category, date, description)
         VALUES (?, ?, ?, ?)
-    """, (amount, category, date, description))
+    """,
+    (amount, category, date, description))
+
 
     conn.commit()
-
-    print("Rows inserted:", cursor.rowcount)
-
     conn.close()
-    print("Expense saved successfully!")
+
+
     return redirect("/")
+
+
 
 # -------------------- EXPENSE HISTORY --------------------
 
@@ -94,15 +120,19 @@ def expenses():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
+
     cursor.execute("""
         SELECT *
         FROM expenses
         ORDER BY id DESC
     """)
 
+
     expenses = cursor.fetchall()
 
+
     conn.close()
+
 
     return render_template(
         "expense_history.html",
@@ -119,22 +149,29 @@ def edit_expense(id):
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
+
     cursor.execute("""
         SELECT *
         FROM expenses
         WHERE id = ?
-    """, (id,))
+    """,
+    (id,))
+
 
     expense = cursor.fetchone()
 
+
     conn.close()
+
 
     return render_template(
         "edit_expense.html",
         expense=expense
     )
-    
-    # -------------------- UPDATE EXPENSE --------------------
+
+
+
+# -------------------- UPDATE EXPENSE --------------------
 
 @app.route("/update-expense/<int:id>", methods=["POST"])
 def update_expense(id):
@@ -144,8 +181,10 @@ def update_expense(id):
     date = request.form["date"]
     description = request.form["description"]
 
+
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
+
 
     cursor.execute("""
         UPDATE expenses
@@ -154,12 +193,23 @@ def update_expense(id):
             date = ?,
             description = ?
         WHERE id = ?
-    """, (amount, category, date, description, id))
+    """,
+    (
+        amount,
+        category,
+        date,
+        description,
+        id
+    ))
+
 
     conn.commit()
     conn.close()
 
+
     return redirect("/expenses")
+
+
 
 # -------------------- DELETE EXPENSE --------------------
 
@@ -169,23 +219,39 @@ def delete_expense(id):
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
+
     cursor.execute("""
         DELETE FROM expenses
         WHERE id = ?
-    """, (id,))
+    """,
+    (id,))
+
 
     conn.commit()
     conn.close()
 
+
     return redirect("/expenses")
+
+
+
 # -------------------- AUTO OPEN BROWSER --------------------
 
 def open_browser():
-    webbrowser.open_new("http://127.0.0.1:5000/")
+
+    webbrowser.open_new(
+        "http://127.0.0.1:5000/"
+    )
+
 
 
 # -------------------- RUN APP --------------------
 
 if __name__ == "__main__":
+
     Timer(1, open_browser).start()
-    app.run(debug=True, use_reloader=False)
+
+    app.run(
+        debug=True,
+        use_reloader=False
+    )
