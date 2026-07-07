@@ -1,11 +1,14 @@
 import sqlite3
+import os
 
-connection = sqlite3.connect("database/expenses.db")
+# Create database folder if it doesn't exist
+os.makedirs("database", exist_ok=True)
 
-cursor = connection.cursor()
+conn = sqlite3.connect("database/expenses.db")
+cursor = conn.cursor()
 
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS expenses(
+CREATE TABLE IF NOT EXISTS expenses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     amount REAL NOT NULL,
     category TEXT NOT NULL,
@@ -14,7 +17,7 @@ CREATE TABLE IF NOT EXISTS expenses(
 )
 """)
 
-connection.commit()
-connection.close()
+conn.commit()
+conn.close()
 
-print("Database created successfully!")
+print("✅ Database and expenses table created successfully!")
