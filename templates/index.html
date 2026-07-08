@@ -3,585 +3,396 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Expense Tracker</title>
+    <title>Expense Tracker</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-
-<!-- CSS -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml"
-href="{{ url_for('static', filename='favicon.svg') }}">
-
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+          href="{{ url_for('static', filename='favicon.svg') }}">
 
 </head>
 
-
 <body>
 
-
-<!-- Navbar -->
+<!-- ================= NAVBAR ================= -->
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-<div class="container">
+    <div class="container">
 
-<a class="navbar-brand fw-bold" href="/">
-💰 Expense Tracker
-</a>
+        <a class="navbar-brand fw-bold" href="/">
+            💰 Expense Tracker
+        </a>
 
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
 
-<button class="navbar-toggler"
-type="button"
-data-bs-toggle="collapse"
-data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
 
-<span class="navbar-toggler-icon"></span>
+        </button>
 
-</button>
+        <div class="collapse navbar-collapse" id="navbarNav">
 
+            <ul class="navbar-nav ms-auto">
 
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
 
-<div class="collapse navbar-collapse" id="navbarNav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/expenses">Expenses</a>
+                </li>
 
-<ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-expense">Add Expense</a>
+                </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Reports</a>
+                </li>
 
-<li class="nav-item">
-<a class="nav-link active" href="/">
-Home
-</a>
-</li>
+            </ul>
 
+        </div>
 
-<li class="nav-item">
-<a class="nav-link" href="/expenses">
-Expenses
-</a>
-</li>
-
-
-<li class="nav-item">
-<a class="nav-link" href="/add-expense">
-Add Expense
-</a>
-</li>
-
-
-<li class="nav-item">
-<a class="nav-link" href="#">
-Reports
-</a>
-</li>
-
-
-</ul>
-
-</div>
-
-
-</div>
+    </div>
 
 </nav>
 
-
-
-
-<!-- Hero -->
+<!-- ================= HERO ================= -->
 
 <section class="hero">
 
-<div class="container">
+    <div class="container">
 
-<div class="row align-items-center">
+        <div class="row align-items-center">
 
+            <div class="col-lg-6">
 
-<div class="col-lg-6">
+                <h1 class="display-3 fw-bold">
+                    Track Your Expenses Like a Pro
+                </h1>
 
+                <p class="lead mt-4">
+                    Manage your income, expenses, savings and financial goals
+                    with an easy-to-use expense tracker.
+                </p>
 
-<h1 class="display-3 fw-bold">
-Track Your Expenses Like a Pro
-</h1>
+                <a href="/add-expense"
+                   class="btn btn-light btn-lg mt-3 me-3">
 
+                    Get Started
 
-<p class="lead mt-4">
-Manage your income, expenses, savings, and financial goals
-with a beautiful and easy-to-use expense tracker.
-</p>
+                </a>
 
+                <a href="/expenses"
+                   class="btn btn-outline-light btn-lg mt-3">
 
-<a href="/add-expense"
-class="btn btn-light btn-lg mt-3 me-3">
+                    View Expenses
 
-Get Started
+                </a>
 
-</a>
+            </div>
 
+            <div class="col-lg-6 text-center">
 
-<a href="/expenses"
-class="btn btn-outline-light btn-lg mt-3">
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/2331/2331941.png"
+                    class="img-fluid"
+                    width="420">
 
-View Expenses
+            </div>
 
-</a>
+        </div>
 
-
-</div>
-
-
-
-
-<div class="col-lg-6 text-center">
-
-
-<img src="https://cdn-icons-png.flaticon.com/512/2331/2331941.png"
-class="img-fluid"
-width="420">
-
-
-</div>
-
-
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
-
-
-
-
-<!-- Dashboard Cards -->
+<!-- ================= DASHBOARD CARDS ================= -->
 
 <section class="container my-5">
 
+    <div class="row g-4">
 
-<div class="row g-4">
+        <div class="col-md-3">
 
+            <div class="card shadow border-0 p-4 text-center">
 
-<div class="col-md-3">
+                <h2>💰</h2>
 
-<div class="card shadow border-0 p-4 text-center">
+                <h5>Total Expense</h5>
 
-<h2>💰</h2>
+                <h3>₹ {{ total_expense }}</h3>
 
-<h5>Total Expense</h5>
+            </div>
 
-<h3>
-₹ {{ total_expense }}
-</h3>
+        </div>
 
-</div>
+        <div class="col-md-3">
 
-</div>
+            <div class="card shadow border-0 p-4 text-center">
 
+                <h2>🔥</h2>
 
+                <h5>Highest Expense</h5>
 
-<div class="col-md-3">
+                <h3>₹ {{ highest_expense }}</h3>
 
-<div class="card shadow border-0 p-4 text-center">
+            </div>
 
-<h2>📈</h2>
+        </div>
 
-<h5>Total Income</h5>
+        <div class="col-md-3">
 
-<h3>
-₹ 0
-</h3>
+            <div class="card shadow border-0 p-4 text-center">
 
-</div>
+                <h2>📊</h2>
 
-</div>
+                <h5>Average Expense</h5>
 
+                <h3>₹ {{ average_expense }}</h3>
 
+            </div>
 
+        </div>
 
-<div class="col-md-3">
+        <div class="col-md-3">
 
-<div class="card shadow border-0 p-4 text-center">
+            <div class="card shadow border-0 p-4 text-center">
 
-<h2>💸</h2>
+                <h2>🧾</h2>
 
-<h5>Total Savings</h5>
+                <h5>Total Transactions</h5>
 
-<h3>
-₹ 0
-</h3>
+                <h3>{{ total_transactions }}</h3>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-
-
-
-<div class="col-md-3">
-
-<div class="card shadow border-0 p-4 text-center">
-
-<h2>🧾</h2>
-
-<h5>Total Transactions</h5>
-
-<h3>
-{{ total_transactions }}
-</h3>
-
-</div>
-
-</div>
-
-
-
-</div>
+    </div>
 
 </section>
 
-
-
-
-
-
-<!-- Recent Expenses -->
+<!-- ================= RECENT EXPENSES ================= -->
 
 <section class="container my-5">
 
+    <div class="card shadow-lg p-4">
 
-<h2 class="mb-4">
-📋 Recent Expenses
-</h2>
+        <h2 class="mb-4">
 
+            📋 Recent Expenses
 
+        </h2>
 
-<table class="table table-striped table-hover">
+        <table class="table table-hover table-striped">
 
+            <thead class="table-dark">
 
-<thead class="table-dark">
+                <tr>
 
-<tr>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Description</th>
 
-<th>
-Amount
-</th>
+                </tr>
 
-<th>
-Category
-</th>
+            </thead>
 
-<th>
-Date
-</th>
+            <tbody>
 
-<th>
-Description
-</th>
+            {% for expense in recent_expenses %}
 
-</tr>
+                <tr>
 
+                    <td>₹ {{ expense[0] }}</td>
+                    <td>{{ expense[1] }}</td>
+                    <td>{{ expense[2] }}</td>
+                    <td>{{ expense[3] }}</td>
 
-</thead>
+                </tr>
 
+            {% endfor %}
 
+            </tbody>
 
-<tbody>
+        </table>
 
-
-{% for expense in recent_expenses %}
-
-
-<tr>
-
-
-<td>
-₹ {{ expense[0] }}
-</td>
-
-
-<td>
-{{ expense[1] }}
-</td>
-
-
-<td>
-{{ expense[2] }}
-</td>
-
-
-<td>
-{{ expense[3] }}
-</td>
-
-
-</tr>
-
-
-{% endfor %}
-
-
-
-</tbody>
-
-
-</table>
-
+    </div>
 
 </section>
 
-
-
-
-
-
-
-<!-- Category Chart -->
-
+<!-- ================= PIE CHART ================= -->
 
 <section class="container my-5">
 
+    <div class="card shadow-lg p-4">
 
-<div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">
 
+            📊 Expenses by Category
 
-<h2 class="text-center mb-4">
+        </h2>
 
-📊 Expenses by Category
+        <div style="width:100%;max-width:500px;height:500px;margin:auto;">
 
-</h2>
+            <canvas id="expenseChart"></canvas>
 
+        </div>
 
-
-<div style="width:100%;max-width:500px;height:500px;margin:auto;">
-
-
-<canvas id="expenseChart"></canvas>
-
-
-</div>
-
-
-
-</div>
-
+    </div>
 
 </section>
 
-
-
-
-
-
-<!-- Monthly Chart -->
-
+<!-- ================= LINE CHART ================= -->
 
 <section class="container my-5">
 
+    <div class="card shadow-lg p-4">
 
-<div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">
 
+            📈 Monthly Expense Trend
 
-<h2 class="text-center mb-4">
+        </h2>
 
-📈 Monthly Expense Trend
+        <div style="max-width:900px;margin:auto;">
 
-</h2>
+            <canvas id="lineChart"></canvas>
 
+        </div>
 
-
-<div style="max-width:900px;margin:auto;">
-
-
-<canvas id="lineChart"></canvas>
-
-
-</div>
-
-
-
-</div>
-
+    </div>
 
 </section>
 
-
-
-
-
-
-<!-- Scripts -->
-
+<!-- ================= JS ================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-
-
 
 <script>
 
-
-// PIE CHART
-
+// ---------------- Pie Chart ----------------
 
 const categoryData = {{ category_data | default([]) | tojson }};
 
+const categoryLabels = categoryData.map(item => item[0]);
+const categoryAmounts = categoryData.map(item => item[1]);
 
-const categoryLabels = categoryData.map(item=>item[0]);
+new Chart(document.getElementById("expenseChart"), {
 
-const categoryAmounts = categoryData.map(item=>item[1]);
+    type: "pie",
 
+    data: {
 
+        labels: categoryLabels,
 
-new Chart(document.getElementById("expenseChart"),{
+        datasets: [{
 
+            data: categoryAmounts,
 
-type:"pie",
+            backgroundColor: [
 
+                "#6366F1",
+                "#06B6D4",
+                "#10B981",
+                "#F59E0B",
+                "#EF4444",
+                "#8B5CF6",
+                "#14B8A6",
+                "#EC4899"
 
-data:{
+            ]
 
+        }]
 
-labels:categoryLabels,
+    },
 
+    options: {
 
-datasets:[{
+        responsive: true,
 
+        plugins: {
 
-data:categoryAmounts,
+            legend: {
 
+                position: "bottom"
 
-backgroundColor:[
+            }
 
-"#6366F1",
-"#06B6D4",
-"#10B981",
-"#F59E0B",
-"#EF4444",
-"#8B5CF6",
-"#14B8A6",
-"#EC4899"
+        }
 
-]
-
-
-}]
-
-},
-
-
-
-options:{
-
-
-responsive:true,
-
-
-plugins:{
-
-
-legend:{
-
-
-position:"bottom"
-
-
-}
-
-
-}
-
-
-}
-
-
+    }
 
 });
 
-
-
-
-
-
-
-
-// LINE CHART
-
-
+// ---------------- Line Chart ----------------
 
 const monthlyData = {{ monthly_data | default([]) | tojson }};
 
+const months = monthlyData.map(item => item[0]);
+const totals = monthlyData.map(item => item[1]);
 
-const dates = monthlyData.map(item=>item[0]);
+new Chart(document.getElementById("lineChart"), {
 
+    type: "line",
 
-const totals = monthlyData.map(item=>item[1]);
+    data: {
 
+        labels: months,
 
+        datasets: [{
 
-new Chart(document.getElementById("lineChart"),{
+            label: "Monthly Expenses",
 
+            data: totals,
 
-type:"line",
+            borderColor: "#6366F1",
 
+            backgroundColor: "rgba(99,102,241,0.15)",
 
-data:{
+            fill: true,
 
+            tension: 0.4
 
-labels:dates,
+        }]
 
+    },
 
-datasets:[{
+    options: {
 
-label:"Expenses",
+        responsive: true,
 
-data:totals,
+        plugins: {
 
+            legend: {
 
-fill:true,
+                display: true
 
+            }
 
-tension:0.4,
+        }
 
-
-borderColor:"#6366F1"
-
-
-}]
-
-
-},
-
-
-
-options:{
-
-
-responsive:true
-
-
-}
-
+    }
 
 });
 
-
-
 </script>
 
-
-
 </body>
-
 </html>
